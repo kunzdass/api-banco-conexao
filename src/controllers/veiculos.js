@@ -62,8 +62,27 @@ async function updateVeiculo (req, res) {
   }
 }
 
+async function deleteVeiculo (req, res) {
+  try {
+    const veiculo = await service.deleteVeiculo(req.params)
+    if (veiculo == 0) {
+      return res.status(404).json({
+        status: 'error',
+        message: `Não foi encontrado um veículo com o id ${req.params.id}`
+      })
+    }
+    return res.status(204).send()
+  } catch (error) {
+    return res.status(500).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}
+
 module.exports = {
   getVeiculos,
   createVeiculo,
-  updateVeiculo
+  updateVeiculo,
+  deleteVeiculo
 }

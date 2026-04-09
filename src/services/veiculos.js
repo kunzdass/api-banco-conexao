@@ -54,8 +54,15 @@ async function updateVeiculo (params) {
   return resposta.rows
 }
 
+async function deleteVeiculo (params) {
+  const sql = 'delete from veiculos where id = $1'
+  const resposta = await db.query(sql, [params.id])
+  return resposta.rowCount
+}
+
 module.exports = {
   getVeiculos,
   createVeiculo,
-  updateVeiculo
+  updateVeiculo,
+  deleteVeiculo
 }

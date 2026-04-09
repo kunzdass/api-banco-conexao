@@ -30,7 +30,40 @@ async function createVeiculo (req, res) {
   }
 }
 
+async function updateVeiculo (req, res) {
+  try {
+    if (!req.body.placa && !req.body.cor && !req.body.modelo) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Informe ao menos um campo para atualizar: placa, cor ou modelo'
+      })
+    }
+    const params = {
+      ...req.body,
+      id: req.params.id
+    }
+    const veiculo = await service.updateVeiculo(params)
+    if (!veiculo.length) {
+      return res.status(404).json({
+        status: 'error',
+        message: `Não foi encontrado um veículo com o id ${params.id}`
+      })
+    }
+    return res.status(200).json({
+      status: 'ok',
+      message: 'Veículo atualizado com sucesso',
+      data: veiculo
+    })
+  } catch (error) {
+    return res.status(500).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}
+
 module.exports = {
   getVeiculos,
-  createVeiculo
+  createVeiculo,
+  updateVeiculo
 }

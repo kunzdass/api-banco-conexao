@@ -4,3 +4,10 @@ create table veiculos (
   cor text not null,
   modelo text
 )
+
+create table usuarios (
+  id serial primary key,
+  login text not null unique,
+  senha text not null,
+  nome text
+)
